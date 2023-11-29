@@ -1,6 +1,5 @@
 package Ejercicio3;
 
-import Ejercicio3.Trabajador;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,38 +9,38 @@ import java.util.Scanner;
 public class ProgramaTrabajadores {
     public static void main(String[] args) {
         try {
-            // Paso 1: Crear el fichero binario de trabajadores (ftrabajador.dat)
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("ftrabajador.dat"));
+            //Crear el fichero binario de trabajadores (ftrabajador.dat)
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("ftrabajador.dat"));
 
-            // Paso 2: Solicitar datos por pantalla y almacenar objetos Trabajador en el fichero
+            //Solicitar datos por pantalla y almacenar objetos Trabajador en el fichero
             List<Trabajador> trabajadores = new ArrayList<>();
             solicitarDatosTrabajadores(trabajadores);
-            oos.writeObject(trabajadores);
+            objectOutputStream.writeObject(trabajadores);
 
-            // Cerrar el ObjectOutputStream
-            oos.close();
+            //Cerrar fichero
+            objectOutputStream.close();
 
-            // Paso 3: Calcular la media de los salarios de todos los trabajadores
+            //Calcular la media de los salarios de todos los trabajadores
             double mediaSalarios = calcularMediaSalarios(trabajadores);
             System.out.println("La media de los salarios es: " + mediaSalarios);
 
-            // Paso 4: Crear un nuevo fichero con los trabajadores cuyo salario sea inferior a la media
+            //Crear un nuevo fichero con los trabajadores cuyo salario sea inferior a la media
             List<Trabajador> trabajadoresInferiores = obtenerTrabajadoresInferioresMedia(trabajadores, mediaSalarios);
             incrementarSalario(trabajadoresInferiores, 0.2); // Incrementar salarios en un 20%
-            ObjectOutputStream oos2 = new ObjectOutputStream(new FileOutputStream("ftrabajador_inferiores.dat"));
-            oos2.writeObject(trabajadoresInferiores);
-            oos2.close();
+            ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(new FileOutputStream("ftrabajador_inferiores.dat"));
+            objectOutputStream2.writeObject(trabajadoresInferiores);
+            objectOutputStream2.close();
 
-            // Paso 5: Mostrar el contenido del último fichero generado
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("ftrabajador_inferiores.dat"));
-            List<Trabajador> trabajadoresMostrar = (List<Trabajador>) ois.readObject();
+            //Mostrar el contenido del último fichero generado
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("ftrabajador_inferiores.dat"));
+            List<Trabajador> trabajadoresMostrar = (List<Trabajador>) objectInputStream.readObject();
             for (Trabajador t : trabajadoresMostrar) {
-                System.out.println("-------");
+                System.out.println("===============");
                 System.out.println(t);
             }
 
-            // Cerrar el ObjectInputStream
-            ois.close();
+            //Cerrar fichero
+            objectInputStream.close();
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -53,7 +52,7 @@ public class ProgramaTrabajadores {
         String continuar;
 
         do {
-            System.out.println("Introduce los datos del trabajador:");
+            System.out.println("Introduce los datos del trabajador");
             System.out.print("DNI: ");
             String dni = scanner.nextLine();
             System.out.print("Nombre Completo: ");
@@ -64,7 +63,7 @@ public class ProgramaTrabajadores {
             String fechaNacimiento = scanner.nextLine();
             System.out.print("Salario: ");
             double salario = scanner.nextDouble();
-            scanner.nextLine(); // Consumir la nueva línea
+            scanner.nextLine();
 
             Trabajador trabajador = new Trabajador(dni, nombreCompleto, telefono, fechaNacimiento, salario);
             trabajadores.add(trabajador);
